@@ -60,6 +60,29 @@
 #ifndef MSG_PROGRESS_BAR_TEST
   #define MSG_PROGRESS_BAR_TEST               _UxGT("Progress Bar Test")
 #endif
+
+//MKS
+
+#ifdef LED
+  #ifndef MSG_LED_ON
+    #define MSG_LED_ON                        _UxGT("Led on")
+  #endif
+
+  #ifndef MSG_LED_OFF
+  #define MSG_LED_OFF                         _UxGT("Led off")
+  #endif
+#endif
+#ifdef LASER
+#ifndef MSG_LASER_ON
+    #define MSG_LASER_ON                        _UxGT("Laser on")
+  #endif
+
+  #ifndef MSG_LASER_OFF
+  #define MSG_LASER_OFF                         _UxGT("Laser off")
+  #endif
+#endif
+
+//MKS
 #ifndef MSG_AUTO_HOME
   #define MSG_AUTO_HOME                       _UxGT("Auto home")
 #endif

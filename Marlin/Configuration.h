@@ -118,12 +118,15 @@
 // The following define selects which electronics board you have.
 // Please choose the name from boards.h that matches your setup
 #ifndef MOTHERBOARD
-  #define MOTHERBOARD BOARD_RAMPS_14_EFB
+  #define MOTHERBOARD BOARD_RUMBA
 #endif
+
+#define LED
+#define LASER
 
 // Optional custom name for your RepStrap or other custom machine
 // Displayed in the LCD "Ready" message
-//#define CUSTOM_MACHINE_NAME "3D Printer"
+#define CUSTOM_MACHINE_NAME "T-REX 2+"
 
 // Define this to set a unique identifier for this printer, (Used by some programs to differentiate between machines)
 // You can use an online service to generate a random UUID. (eg http://www.uuidgenerator.net/version4)
@@ -131,7 +134,7 @@
 
 // This defines the number of extruders
 // :[1, 2, 3, 4, 5]
-#define EXTRUDERS 1
+#define EXTRUDERS 2
 
 // For Cyclops or any "multi-extruder" that shares a single nozzle.
 //#define SINGLENOZZLE
@@ -236,7 +239,7 @@
  * :{ '0': "Not used", '1':"100k / 4.7k - EPCOS", '2':"200k / 4.7k - ATC Semitec 204GT-2", '3':"Mendel-parts / 4.7k", '4':"10k !! do not use for a hotend. Bad resolution at high temp. !!", '5':"100K / 4.7k - ATC Semitec 104GT-2 (Used in ParCan & J-Head)", '6':"100k / 4.7k EPCOS - Not as accurate as Table 1", '7':"100k / 4.7k Honeywell 135-104LAG-J01", '8':"100k / 4.7k 0603 SMD Vishay NTCS0603E3104FXT", '9':"100k / 4.7k GE Sensing AL03006-58.2K-97-G1", '10':"100k / 4.7k RS 198-961", '11':"100k / 4.7k beta 3950 1%", '12':"100k / 4.7k 0603 SMD Vishay NTCS0603E3104FXT (calibrated for Makibox hot bed)", '13':"100k Hisens 3950  1% up to 300°C for hotend 'Simple ONE ' & hotend 'All In ONE'", '20':"PT100 (Ultimainboard V2.x)", '51':"100k / 1k - EPCOS", '52':"200k / 1k - ATC Semitec 204GT-2", '55':"100k / 1k - ATC Semitec 104GT-2 (Used in ParCan & J-Head)", '60':"100k Maker's Tool Works Kapton Bed Thermistor beta=3950", '66':"Dyze Design 4.7M High Temperature thermistor", '70':"the 100K thermistor found in the bq Hephestos 2", '71':"100k / 4.7k Honeywell 135-104LAF-J01", '147':"Pt100 / 4.7k", '1047':"Pt1000 / 4.7k", '110':"Pt100 / 1k (non-standard)", '1010':"Pt1000 / 1k (non standard)", '-3':"Thermocouple + MAX31855 (only for sensor 0)", '-2':"Thermocouple + MAX6675 (only for sensor 0)", '-1':"Thermocouple + AD595",'998':"Dummy 1", '999':"Dummy 2" }
  */
 #define TEMP_SENSOR_0 1
-#define TEMP_SENSOR_1 0
+#define TEMP_SENSOR_1 1
 #define TEMP_SENSOR_2 0
 #define TEMP_SENSOR_3 0
 #define TEMP_SENSOR_4 0
@@ -274,7 +277,7 @@
 // When temperature exceeds max temp, your heater will be switched off.
 // This feature exists to protect your hotend from overheating accidentally, but *NOT* from thermistor short/failure!
 // You should use MINTEMP for thermistor short/failure protection.
-#define HEATER_0_MAXTEMP 275
+#define HEATER_0_MAXTEMP 410
 #define HEATER_1_MAXTEMP 275
 #define HEATER_2_MAXTEMP 275
 #define HEATER_3_MAXTEMP 275
@@ -390,8 +393,8 @@
  * details can be tuned in Configuration_adv.h
  */
 
-#define THERMAL_PROTECTION_HOTENDS // Enable thermal protection for all extruders
-#define THERMAL_PROTECTION_BED     // Enable thermal protection for the heated bed
+//#define THERMAL_PROTECTION_HOTENDS // Enable thermal protection for all extruders
+//#define THERMAL_PROTECTION_BED     // Enable thermal protection for the heated bed
 
 //===========================================================================
 //============================= Mechanical Settings =========================
@@ -418,10 +421,10 @@
 // Almost all printers will be using one per axis. Probes will use one or more of the
 // extra connectors. Leave undefined any used for non-endstop and non-probe purposes.
 #define USE_XMIN_PLUG
-#define USE_YMIN_PLUG
+//#define USE_YMIN_PLUG
 #define USE_ZMIN_PLUG
-//#define USE_XMAX_PLUG
-//#define USE_YMAX_PLUG
+#define USE_XMAX_PLUG
+#define USE_YMAX_PLUG
 //#define USE_ZMAX_PLUG
 
 // coarse Endstop Settings
@@ -440,11 +443,11 @@
 
 // Mechanical endstop with COM to ground and NC to Signal uses "false" here (most common setup).
 #define X_MIN_ENDSTOP_INVERTING false // set to true to invert the logic of the endstop.
-#define Y_MIN_ENDSTOP_INVERTING false // set to true to invert the logic of the endstop.
-#define Z_MIN_ENDSTOP_INVERTING false // set to true to invert the logic of the endstop.
+#define Y_MIN_ENDSTOP_INVERTING true // set to true to invert the logic of the endstop.
+#define Z_MIN_ENDSTOP_INVERTING true // set to true to invert the logic of the endstop.
 #define X_MAX_ENDSTOP_INVERTING false // set to true to invert the logic of the endstop.
-#define Y_MAX_ENDSTOP_INVERTING false // set to true to invert the logic of the endstop.
-#define Z_MAX_ENDSTOP_INVERTING false // set to true to invert the logic of the endstop.
+#define Y_MAX_ENDSTOP_INVERTING true // set to true to invert the logic of the endstop.
+#define Z_MAX_ENDSTOP_INVERTING true // set to true to invert the logic of the endstop.
 #define Z_MIN_PROBE_ENDSTOP_INVERTING false // set to true to invert the logic of the probe.
 
 // Enable this feature if all enabled endstop pins are interrupt-capable.
@@ -476,14 +479,14 @@
  * Override with M92
  *                                      X, Y, Z, E0 [, E1[, E2[, E3]]]
  */
-#define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 4000, 500 }
+#define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 160, 1600, 92.599 }
 
 /**
  * Default Max Feed Rate (mm/s)
  * Override with M203
  *                                      X, Y, Z, E0 [, E1[, E2[, E3]]]
  */
-#define DEFAULT_MAX_FEEDRATE          { 300, 300, 5, 25 }
+#define DEFAULT_MAX_FEEDRATE          { 250, 150, 5, 25 }
 
 /**
  * Default Max Acceleration (change/s) change = mm/s
@@ -491,7 +494,7 @@
  * Override with M201
  *                                      X, Y, Z, E0 [, E1[, E2[, E3]]]
  */
-#define DEFAULT_MAX_ACCELERATION      { 3000, 3000, 100, 10000 }
+#define DEFAULT_MAX_ACCELERATION      { 1500, 500, 400, 4000 }
 
 /**
  * Default Acceleration (change/s) change = mm/s
@@ -514,7 +517,7 @@
  * value set here, it may happen instantaneously.
  */
 #define DEFAULT_XJERK                 20.0
-#define DEFAULT_YJERK                 20.0
+#define DEFAULT_YJERK                 10.0
 #define DEFAULT_ZJERK                  0.4
 #define DEFAULT_EJERK                  5.0
 
@@ -586,7 +589,7 @@
 /**
  * The BLTouch probe is a Hall effect sensor that emulates a servo.
  */
-//#define BLTOUCH
+#define BLTOUCH
 #if ENABLED(BLTOUCH)
   //#define BLTOUCH_DELAY 375   // (ms) Enable and increase if needed
   //#define BLTOUCH_HEATERS_OFF // Enable if the probe seems unreliable. Heaters will be disabled for each probe.
@@ -622,9 +625,9 @@
  *      O-- FRONT --+
  *    (0,0)
  */
-#define X_PROBE_OFFSET_FROM_EXTRUDER 10  // X offset: -left  +right  [of the nozzle]
-#define Y_PROBE_OFFSET_FROM_EXTRUDER 10  // Y offset: -front +behind [the nozzle]
-#define Z_PROBE_OFFSET_FROM_EXTRUDER 0   // Z offset: -below +above  [the nozzle]
+#define X_PROBE_OFFSET_FROM_EXTRUDER -7  // X offset: -left  +right  [of the nozzle]
+#define Y_PROBE_OFFSET_FROM_EXTRUDER 29  // Y offset: -front +behind [the nozzle]
+#define Z_PROBE_OFFSET_FROM_EXTRUDER -1.5   // Z offset: -below +above  [the nozzle]
 
 // X and Y axis travel speed (mm/m) between probes
 #define XY_PROBE_SPEED 8000
@@ -652,7 +655,7 @@
  * Example: `M851 Z-5` with a CLEARANCE of 4  =>  9mm from bed to nozzle.
  *     But: `M851 Z+1` with a CLEARANCE of 2  =>  2mm from bed to nozzle.
  */
-#define Z_CLEARANCE_DEPLOY_PROBE   10 // Z Clearance for Deploy/Stow
+#define Z_CLEARANCE_DEPLOY_PROBE   5 // Z Clearance for Deploy/Stow
 #define Z_CLEARANCE_BETWEEN_PROBES  5 // Z Clearance between probe points
 
 // For M851 give a range for adjusting the Z probe offset
@@ -686,8 +689,8 @@
 
 // Invert the stepper direction. Change (or reverse the motor connector) if an axis goes the wrong way.
 #define INVERT_X_DIR false
-#define INVERT_Y_DIR true
-#define INVERT_Z_DIR false
+#define INVERT_Y_DIR false
+#define INVERT_Z_DIR true
 
 // Enable this option for Toshiba stepper drivers
 //#define CONFIG_STEPPERS_TOSHIBA
@@ -696,31 +699,31 @@
 
 // For direct drive extruder v9 set to true, for geared extruder set to false.
 #define INVERT_E0_DIR false
-#define INVERT_E1_DIR false
+#define INVERT_E1_DIR true
 #define INVERT_E2_DIR false
 #define INVERT_E3_DIR false
 #define INVERT_E4_DIR false
 
 // @section homing
 
-//#define Z_HOMING_HEIGHT 4  // (in mm) Minimal z height before homing (G28) for Z clearance above the bed, clamps, ...
+#define Z_HOMING_HEIGHT 4  // (in mm) Minimal z height before homing (G28) for Z clearance above the bed, clamps, ...
                              // Be sure you have this distance over your Z_MAX_POS in case.
 
 // Direction of endstops when homing; 1=MAX, -1=MIN
 // :[-1,1]
 #define X_HOME_DIR -1
-#define Y_HOME_DIR -1
+#define Y_HOME_DIR 1
 #define Z_HOME_DIR -1
 
 // @section machine
 
 // Travel limits after homing (units are in mm)
-#define X_MIN_POS 0
+#define X_MIN_POS -42
 #define Y_MIN_POS 0
 #define Z_MIN_POS 0
-#define X_MAX_POS 200
-#define Y_MAX_POS 200
-#define Z_MAX_POS 200
+#define X_MAX_POS 450
+#define Y_MAX_POS 400
+#define Z_MAX_POS 500
 
 // If enabled, axes won't move below MIN_POS in response to movement commands.
 #define MIN_SOFTWARE_ENDSTOPS
@@ -788,7 +791,7 @@
 //#define AUTO_BED_LEVELING_3POINT
 //#define AUTO_BED_LEVELING_LINEAR
 //#define AUTO_BED_LEVELING_BILINEAR
-//#define AUTO_BED_LEVELING_UBL
+#define AUTO_BED_LEVELING_UBL
 //#define MESH_BED_LEVELING
 
 /**
@@ -808,14 +811,14 @@
 #if ENABLED(AUTO_BED_LEVELING_LINEAR) || ENABLED(AUTO_BED_LEVELING_BILINEAR)
 
   // Set the number of grid points per dimension.
-  #define GRID_MAX_POINTS_X 3
+  #define GRID_MAX_POINTS_X 4
   #define GRID_MAX_POINTS_Y GRID_MAX_POINTS_X
 
   // Set the boundaries for probing (where the probe can reach).
-  #define LEFT_PROBE_BED_POSITION 15
-  #define RIGHT_PROBE_BED_POSITION 170
-  #define FRONT_PROBE_BED_POSITION 20
-  #define BACK_PROBE_BED_POSITION 170
+  #define LEFT_PROBE_BED_POSITION 30
+  #define RIGHT_PROBE_BED_POSITION 365
+  #define FRONT_PROBE_BED_POSITION 30
+  #define BACK_PROBE_BED_POSITION 365
 
   // The Z probe minimum outer margin (to validate G29 parameters).
   #define MIN_PROBE_EDGE 10
@@ -858,15 +861,16 @@
   //========================= Unified Bed Leveling ============================
   //===========================================================================
 
-  #define UBL_MESH_INSET 1          // Mesh inset margin on print area
-  #define GRID_MAX_POINTS_X 10      // Don't use more than 15 points per axis, implementation limited.
+  #define UBL_MESH_INSET_X 50          // Mesh inset margin on print area
+  #define UBL_MESH_INSET_Y 0 
+  #define GRID_MAX_POINTS_X 15      // Don't use more than 15 points per axis, implementation limited.
   #define GRID_MAX_POINTS_Y GRID_MAX_POINTS_X
-  #define UBL_PROBE_PT_1_X 39       // These set the probe locations for when UBL does a 3-Point leveling
-  #define UBL_PROBE_PT_1_Y 180      // of the mesh.
-  #define UBL_PROBE_PT_2_X 39
-  #define UBL_PROBE_PT_2_Y 20
-  #define UBL_PROBE_PT_3_X 180
-  #define UBL_PROBE_PT_3_Y 20
+  #define UBL_PROBE_PT_1_X 30       // These set the probe locations for when UBL does a 3-Point leveling
+  #define UBL_PROBE_PT_1_Y 365      // of the mesh.
+  #define UBL_PROBE_PT_2_X 30
+  #define UBL_PROBE_PT_2_Y 30
+  #define UBL_PROBE_PT_3_X 365
+  #define UBL_PROBE_PT_3_Y 30
   //#define UBL_G26_MESH_EDITING    // Enable G26 mesh editing
 
 #elif ENABLED(MESH_BED_LEVELING)
@@ -890,7 +894,7 @@
 //#define LCD_BED_LEVELING
 
 #if ENABLED(LCD_BED_LEVELING)
-  #define MBL_Z_STEP 0.025    // Step size while manually probing Z axis.
+  #define MBL_Z_STEP 0.01    // Step size while manually probing Z axis.
   #define LCD_PROBE_Z_RANGE 4 // Z Range centered on Z_MIN_POS for LCD Z adjustment
 #endif
 
@@ -920,7 +924,7 @@
 // - If stepper drivers time out, it will need X and Y homing again before Z homing.
 // - Move the Z probe (or nozzle) to a defined XY point before Z Homing when homing all axes (G28).
 // - Prevent Z homing when the Z probe is outside bed area.
-//#define Z_SAFE_HOMING
+#define Z_SAFE_HOMING
 
 #if ENABLED(Z_SAFE_HOMING)
   #define Z_SAFE_HOMING_X_POINT ((X_MIN_POS + X_MAX_POS) / 2)    // X point for Z homing when homing all axis (G28).
@@ -945,7 +949,7 @@
 // M501 - reads parameters from EEPROM (if you need reset them after you changed them temporarily).
 // M502 - reverts to the default "factory settings".  You still need to store them in EEPROM afterwards if you want to.
 //define this to enable EEPROM support
-//#define EEPROM_SETTINGS
+#define EEPROM_SETTINGS
 
 #if ENABLED(EEPROM_SETTINGS)
   // To disable EEPROM Serial responses and decrease program space by ~1700 byte: comment this out:
@@ -979,31 +983,25 @@
 // @section temperature
 
 // Preheat Constants
-#define PREHEAT_1_TEMP_HOTEND 180
+#define PREHEAT_1_TEMP_HOTEND 190
 #define PREHEAT_1_TEMP_BED     70
-#define PREHEAT_1_FAN_SPEED     0 // Value from 0 to 255
+#define PREHEAT_1_FAN_SPEED     125 // Value from 0 to 255
 
-#define PREHEAT_2_TEMP_HOTEND 240
+#define PREHEAT_2_TEMP_HOTEND 220
 #define PREHEAT_2_TEMP_BED    110
-#define PREHEAT_2_FAN_SPEED     0 // Value from 0 to 255
+#define PREHEAT_2_FAN_SPEED     125 // Value from 0 to 255
 
-//
-// Nozzle Park -- EXPERIMENTAL
-//
-// When enabled allows the user to define a special XYZ position, inside the
-// machine's topology, to park the nozzle when idle or when receiving the G27
-// command.
-//
-// The "P" paramenter controls what is the action applied to the Z axis:
-//    P0: (Default) If current Z-pos is lower than Z-park then the nozzle will
-//        be raised to reach Z-park height.
-//
-//    P1: No matter the current Z-pos, the nozzle will be raised/lowered to
-//        reach Z-park height.
-//
-//    P2: The nozzle height will be raised by Z-park amount but never going over
-//        the machine's limit of Z_MAX_POS.
-//
+/**
+ * Nozzle Park -- EXPERIMENTAL
+ *
+ * Park the nozzle at the given XYZ position on idle or G27.
+ *
+ * The "P" parameter controls the action applied to the Z axis:
+ *
+ *    P0  (Default) If Z is below park Z raise the nozzle.
+ *    P1  Raise the nozzle always to Z-park height.
+ *    P2  Raise the nozzle by Z-park amount, limited to Z_MAX_POS.
+ */
 //#define NOZZLE_PARK_FEATURE
 
 #if ENABLED(NOZZLE_PARK_FEATURE)
@@ -1011,44 +1009,44 @@
   #define NOZZLE_PARK_POINT { (X_MIN_POS + 10), (Y_MAX_POS - 10), 20 }
 #endif
 
-//
-// Clean Nozzle Feature -- EXPERIMENTAL
-//
-// When enabled allows the user to send G12 to start the nozzle cleaning
-// process, the G-Code accepts two parameters:
-//   "P" for pattern selection
-//   "S" for defining the number of strokes/repetitions
-//
-// Available list of patterns:
-//   P0: This is the default pattern, this process requires a sponge type
-//       material at a fixed bed location. S defines "strokes" i.e.
-//       back-and-forth movements between the starting and end points.
-//
-//   P1: This starts a zig-zag pattern between (X0, Y0) and (X1, Y1), "T"
-//       defines the number of zig-zag triangles to be done. "S" defines the
-//       number of strokes aka one back-and-forth movement. Zig-zags will
-//       be performed in whichever dimension is smallest. As an example,
-//       sending "G12 P1 S1 T3" will execute:
-//
-//          --
-//         |  (X0, Y1) |     /\        /\        /\     | (X1, Y1)
-//         |           |    /  \      /  \      /  \    |
-//       A |           |   /    \    /    \    /    \   |
-//         |           |  /      \  /      \  /      \  |
-//         |  (X0, Y0) | /        \/        \/        \ | (X1, Y0)
-//          --         +--------------------------------+
-//                       |________|_________|_________|
-//                           T1        T2        T3
-//
-//   P2: This starts a circular pattern with circle with middle in
-//       NOZZLE_CLEAN_CIRCLE_MIDDLE radius of R and stroke count of S.
-//       Before starting the circle nozzle goes to NOZZLE_CLEAN_START_POINT.
-//
-// Caveats: End point Z should use the same value as Start point Z.
-//
-// Attention: This is an EXPERIMENTAL feature, in the future the G-code arguments
-// may change to add new functionality like different wipe patterns.
-//
+/**
+ * Clean Nozzle Feature -- EXPERIMENTAL
+ *
+ * Adds the G12 command to perform a nozzle cleaning process.
+ *
+ * Parameters:
+ *   P  Pattern
+ *   S  Strokes / Repetitions
+ *   T  Triangles (P1 only)
+ *
+ * Patterns:
+ *   P0  Straight line (default). This process requires a sponge type material
+ *       at a fixed bed location. "S" specifies strokes (i.e. back-forth motions)
+ *       between the start / end points.
+ *
+ *   P1  Zig-zag pattern between (X0, Y0) and (X1, Y1), "T" specifies the
+ *       number of zig-zag triangles to do. "S" defines the number of strokes.
+ *       Zig-zags are done in whichever is the narrower dimension.
+ *       For example, "G12 P1 S1 T3" will execute:
+ *
+ *          --
+ *         |  (X0, Y1) |     /\        /\        /\     | (X1, Y1)
+ *         |           |    /  \      /  \      /  \    |
+ *       A |           |   /    \    /    \    /    \   |
+ *         |           |  /      \  /      \  /      \  |
+ *         |  (X0, Y0) | /        \/        \/        \ | (X1, Y0)
+ *          --         +--------------------------------+
+ *                       |________|_________|_________|
+ *                           T1        T2        T3
+ *
+ *   P2  Circular pattern with middle at NOZZLE_CLEAN_CIRCLE_MIDDLE.
+ *       "R" specifies the radius. "S" specifies the stroke count.
+ *       Before starting, the nozzle moves to NOZZLE_CLEAN_START_POINT.
+ *
+ *   Caveats: The ending Z should be the same as starting Z.
+ * Attention: EXPERIMENTAL. G-code arguments may change.
+ *
+ */
 //#define NOZZLE_CLEAN_FEATURE
 
 #if ENABLED(NOZZLE_CLEAN_FEATURE)
@@ -1073,33 +1071,35 @@
   #define NOZZLE_CLEAN_GOBACK
 #endif
 
-//
-// Print job timer
-//
-// Enable this option to automatically start and stop the
-// print job timer when M104/M109/M190 commands are received.
-// M104 (extruder without wait) - high temp = none, low temp = stop timer
-// M109 (extruder with wait) - high temp = start timer, low temp = stop timer
-// M190 (bed with wait) - high temp = start timer, low temp = none
-//
-// In all cases the timer can be started and stopped using
-// the following commands:
-//
-// - M75  - Start the print job timer
-// - M76  - Pause the print job timer
-// - M77  - Stop the print job timer
+/**
+ * Print Job Timer
+ *
+ * Automatically start and stop the print job timer on M104/M109/M190.
+ *
+ *   M104 (hotend, no wait) - high temp = none,        low temp = stop timer
+ *   M109 (hotend, wait)    - high temp = start timer, low temp = stop timer
+ *   M190 (bed, wait)       - high temp = start timer, low temp = none
+ *
+ * The timer can also be controlled with the following commands:
+ *
+ *   M75 - Start the print job timer
+ *   M76 - Pause the print job timer
+ *   M77 - Stop the print job timer
+ */
 #define PRINTJOB_TIMER_AUTOSTART
 
-//
-// Print Counter
-//
-// When enabled Marlin will keep track of some print statistical data such as:
-//  - Total print jobs
-//  - Total successful print jobs
-//  - Total failed print jobs
-//  - Total time printing
-//
-// This information can be viewed by the M78 command.
+/**
+ * Print Counter
+ *
+ * Track statistical data such as:
+ *
+ *  - Total print jobs
+ *  - Total successful print jobs
+ *  - Total failed print jobs
+ *  - Total time printing
+ *
+ * View the current statistics with M78.
+ */
 //#define PRINTCOUNTER
 
 //=============================================================================
@@ -1108,78 +1108,79 @@
 
 // @section lcd
 
-//
-// LCD LANGUAGE
-//
-// Here you may choose the language used by Marlin on the LCD menus, the following
-// list of languages are available:
-//    en, an, bg, ca, cn, cz, de, el, el-gr, es, eu, fi, fr, gl, hr, it,
-//    kana, kana_utf8, nl, pl, pt, pt_utf8, pt-br, pt-br_utf8, ru, tr, uk, test
-//
-// :{ 'en':'English', 'an':'Aragonese', 'bg':'Bulgarian', 'ca':'Catalan', 'cn':'Chinese', 'cz':'Czech', 'de':'German', 'el':'Greek', 'el-gr':'Greek (Greece)', 'es':'Spanish', 'eu':'Basque-Euskera', 'fi':'Finnish', 'fr':'French', 'gl':'Galician', 'hr':'Croatian', 'it':'Italian', 'kana':'Japanese', 'kana_utf8':'Japanese (UTF8)', 'nl':'Dutch', 'pl':'Polish', 'pt':'Portuguese', 'pt-br':'Portuguese (Brazilian)', 'pt-br_utf8':'Portuguese (Brazilian UTF8)', 'pt_utf8':'Portuguese (UTF8)', 'ru':'Russian', 'tr':'Turkish', 'uk':'Ukrainian', 'test':'TEST' }
-//
+/**
+ * LCD LANGUAGE
+ *
+ * Select the language to display on the LCD. These languages are available:
+ *
+ *    en, an, bg, ca, cn, cz, de, el, el-gr, es, eu, fi, fr, gl, hr, it,
+ *    kana, kana_utf8, nl, pl, pt, pt_utf8, pt-br, pt-br_utf8, ru, tr, uk, test
+ *
+ * :{ 'en':'English', 'an':'Aragonese', 'bg':'Bulgarian', 'ca':'Catalan', 'cn':'Chinese', 'cz':'Czech', 'de':'German', 'el':'Greek', 'el-gr':'Greek (Greece)', 'es':'Spanish', 'eu':'Basque-Euskera', 'fi':'Finnish', 'fr':'French', 'gl':'Galician', 'hr':'Croatian', 'it':'Italian', 'kana':'Japanese', 'kana_utf8':'Japanese (UTF8)', 'nl':'Dutch', 'pl':'Polish', 'pt':'Portuguese', 'pt-br':'Portuguese (Brazilian)', 'pt-br_utf8':'Portuguese (Brazilian UTF8)', 'pt_utf8':'Portuguese (UTF8)', 'ru':'Russian', 'tr':'Turkish', 'uk':'Ukrainian', 'test':'TEST' }
+ */
 #define LCD_LANGUAGE en
 
-//
-// LCD Character Set
-//
-// Note: This option is NOT applicable to Graphical Displays.
-//
-// All character-based LCD's provide ASCII plus one of these
-// language extensions:
-//
-//  - JAPANESE ... the most common
-//  - WESTERN  ... with more accented characters
-//  - CYRILLIC ... for the Russian language
-//
-// To determine the language extension installed on your controller:
-//
-//  - Compile and upload with LCD_LANGUAGE set to 'test'
-//  - Click the controller to view the LCD menu
-//  - The LCD will display Japanese, Western, or Cyrillic text
-//
-// See https://github.com/MarlinFirmware/Marlin/wiki/LCD-Language
-//
-// :['JAPANESE', 'WESTERN', 'CYRILLIC']
-//
+/**
+ * LCD Character Set
+ *
+ * Note: This option is NOT applicable to Graphical Displays.
+ *
+ * All character-based LCDs provide ASCII plus one of these
+ * language extensions:
+ *
+ *  - JAPANESE ... the most common
+ *  - WESTERN  ... with more accented characters
+ *  - CYRILLIC ... for the Russian language
+ *
+ * To determine the language extension installed on your controller:
+ *
+ *  - Compile and upload with LCD_LANGUAGE set to 'test'
+ *  - Click the controller to view the LCD menu
+ *  - The LCD will display Japanese, Western, or Cyrillic text
+ *
+ * See https: *github.com/MarlinFirmware/Marlin/wiki/LCD-Language
+ *
+ * :['JAPANESE', 'WESTERN', 'CYRILLIC']
+ */
 #define DISPLAY_CHARSET_HD44780 JAPANESE
 
-//
-// LCD TYPE
-//
-// You may choose ULTRA_LCD if you have character based LCD with 16x2, 16x4, 20x2,
-// 20x4 char/lines or DOGLCD for the full graphics display with 128x64 pixels
-// (ST7565R family). (This option will be set automatically for certain displays.)
-//
-// IMPORTANT NOTE: The U8glib library is required for Full Graphic Display!
-//                 https://github.com/olikraus/U8glib_Arduino
-//
+/**
+ * LCD TYPE
+ *
+ * Enable ULTRA_LCD for a 16x2, 16x4, 20x2, or 20x4 character-based LCD.
+ * Enable DOGLCD for a 128x64 (ST7565R) Full Graphical Display.
+ * (These options will be enabled automatically for most displays.)
+ *
+ * IMPORTANT: The U8glib library is required for Full Graphic Display!
+ *            https://github.com/olikraus/U8glib_Arduino
+ */
 //#define ULTRA_LCD   // Character based
 //#define DOGLCD      // Full graphics display
 
-//
-// SD CARD
-//
-// SD Card support is disabled by default. If your controller has an SD slot,
-// you must uncomment the following option or it won't work.
-//
-//#define SDSUPPORT
+/**
+ * SD CARD
+ *
+ * SD Card support is disabled by default. If your controller has an SD slot,
+ * you must uncomment the following option or it won't work.
+ *
+ */
+#define SDSUPPORT
 
-//
-// SD CARD: SPI SPEED
-//
-// Uncomment ONE of the following items to use a slower SPI transfer
-// speed. This is usually required if you're getting volume init errors.
-//
+/**
+ * SD CARD: SPI SPEED
+ *
+ * Enable one of the following items for a slower SPI transfer speed.
+ * This may be required to resolve "volume init" errors.
+ */
 //#define SPI_SPEED SPI_HALF_SPEED
 //#define SPI_SPEED SPI_QUARTER_SPEED
 //#define SPI_SPEED SPI_EIGHTH_SPEED
 
-//
-// SD CARD: ENABLE CRC
-//
-// Use CRC checks and retries on the SD communication.
-//
+/**
+ * SD CARD: ENABLE CRC
+ *
+ * Use CRC checks and retries on the SD communication.
+ */
 //#define SD_CHECK_AND_RETRY
 
 //
@@ -1207,7 +1208,7 @@
  */
 
 //
-// This option reverses the encoder direction everywhere
+// This option reverses the encoder direction everywhere.
 //
 //  Set this option if CLOCKWISE causes values to DECREASE
 //
@@ -1321,7 +1322,7 @@
 // RepRapDiscount FULL GRAPHIC Smart Controller
 // http://reprap.org/wiki/RepRapDiscount_Full_Graphic_Smart_Controller
 //
-//#define REPRAP_DISCOUNT_FULL_GRAPHIC_SMART_CONTROLLER
+#define REPRAP_DISCOUNT_FULL_GRAPHIC_SMART_CONTROLLER
 
 //
 // MakerLab Mini Panel with graphic
@@ -1516,7 +1517,7 @@
 // leaving it undefined or defining as 0 will disable the servo subsystem
 // If unsure, leave commented / disabled
 //
-//#define NUM_SERVOS 3 // Servo index starts with 0 for M280 command
+#define NUM_SERVOS 3 // Servo index starts with 0 for M280 command
 
 // Delay (in milliseconds) before the next move will start, to give the servo time to reach its target angle.
 // 300ms is a good value but you can try less delay.

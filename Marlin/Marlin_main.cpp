@@ -832,7 +832,7 @@ void clear_command_queue() {
  */
 inline void _commit_command(bool say_ok) {
   send_ok[cmd_queue_index_w] = say_ok;
-  cmd_queue_index_w = (cmd_queue_index_w + 1) % BUFSIZE;
+  if (++cmd_queue_index_w >= BUFSIZE) cmd_queue_index_w = 0;
   commands_in_queue++;
 }
 
@@ -5615,6 +5615,8 @@ inline void gcode_G92() {
 
 #endif // HAS_RESUME_CONTINUE
 
+
+
 /**
  * M17: Enable power on all stepper motors
  */
@@ -6498,9 +6500,9 @@ inline void gcode_M104() {
   void print_heaterstates() {
     #if HAS_TEMP_HOTEND
       SERIAL_PROTOCOLPGM(" T:");
-      SERIAL_PROTOCOL_F(thermalManager.degHotend(target_extruder), 1);
+      SERIAL_PROTOCOL(thermalManager.degHotend(target_extruder));
       SERIAL_PROTOCOLPGM(" /");
-      SERIAL_PROTOCOL_F(thermalManager.degTargetHotend(target_extruder), 1);
+      SERIAL_PROTOCOL(thermalManager.degTargetHotend(target_extruder));
       #if ENABLED(SHOW_TEMP_ADC_VALUES)
         SERIAL_PROTOCOLPAIR(" (", thermalManager.rawHotendTemp(target_extruder) / OVERSAMPLENR);
         SERIAL_PROTOCOLCHAR(')');
@@ -6508,9 +6510,9 @@ inline void gcode_M104() {
     #endif
     #if HAS_TEMP_BED
       SERIAL_PROTOCOLPGM(" B:");
-      SERIAL_PROTOCOL_F(thermalManager.degBed(), 1);
+      SERIAL_PROTOCOL(thermalManager.degBed());
       SERIAL_PROTOCOLPGM(" /");
-      SERIAL_PROTOCOL_F(thermalManager.degTargetBed(), 1);
+      SERIAL_PROTOCOL(thermalManager.degTargetBed());
       #if ENABLED(SHOW_TEMP_ADC_VALUES)
         SERIAL_PROTOCOLPAIR(" (", thermalManager.rawBedTemp() / OVERSAMPLENR);
         SERIAL_PROTOCOLCHAR(')');
@@ -6520,9 +6522,9 @@ inline void gcode_M104() {
       HOTEND_LOOP() {
         SERIAL_PROTOCOLPAIR(" T", e);
         SERIAL_PROTOCOLCHAR(':');
-        SERIAL_PROTOCOL_F(thermalManager.degHotend(e), 1);
+        SERIAL_PROTOCOL(thermalManager.degHotend(e));
         SERIAL_PROTOCOLPGM(" /");
-        SERIAL_PROTOCOL_F(thermalManager.degTargetHotend(e), 1);
+        SERIAL_PROTOCOL(thermalManager.degTargetHotend(e));
         #if ENABLED(SHOW_TEMP_ADC_VALUES)
           SERIAL_PROTOCOLPAIR(" (", thermalManager.rawHotendTemp(e) / OVERSAMPLENR);
           SERIAL_PROTOCOLCHAR(')');
@@ -6612,6 +6614,24 @@ inline void gcode_M105() {
   }
 
 #endif // FAN_COUNT > 0
+
+  inline void gcode_M3() {
+    uint16_t s = code_seen('S') ? code_value_ushort() : 255,
+             p = code_seen('P') ? code_value_ushort() : 1;
+			 NOMORE(s, 255);
+			 if (p < FAN_COUNT+1) fanSpeeds[p] = s;
+             fanSpeeds[p] = s;
+			 
+  }
+
+  /**
+   * M5: Fan1 Off
+   */
+  inline void gcode_M5() {
+    uint16_t p = code_seen('P') ? code_value_ushort() : 1;
+	fanSpeeds[p] = 0;
+  }
+
 
 #if DISABLED(EMERGENCY_PARSER)
 
@@ -9901,6 +9921,28 @@ void process_next_command() {
           gcode_M0_M1();
           break;
       #endif // ULTIPANEL
+	  /*
+	  //MKS
+	  #ifdef LASER
+	    case 3:
+	    digitalWrite(LASER_PIN,HIGH);
+        break;
+	    case 5:       //LASER OFF
+		digitalWrite(LASER_PIN,LOW);
+        break;
+		#endif
+		*/
+		
+		#ifdef LED
+	    case 225:
+		digitalWrite(LED4_PIN,HIGH);    //LED  ON
+        //led_flag=++led_flag;
+		break;
+	    case 224:
+		digitalWrite(LED4_PIN,LOW);    //LED  OFF
+		//led_flag=--led_flag;
+        break;
+		#endif
 
       case 17: // M17: Enable all stepper motors
         gcode_M17();
@@ -10054,6 +10096,17 @@ void process_next_command() {
         case 107: // M107: Fan Off
           gcode_M107();
           break;
+		 
+		 #ifdef LASER
+	    case 3:
+	    gcode_M3();
+        break;
+	    case 5:       //LASER OFF
+		gcode_M5();
+        break;
+		#endif
+		  
+		  
       #endif // FAN_COUNT > 0
 
       #if ENABLED(PARK_HEAD_ON_PAUSE)
@@ -11479,7 +11532,7 @@ void prepare_move_to_destination() {
 
 #endif // BEZIER_CURVE_SUPPORT
 
-#if USE_CONTROLLER_FAN
+#if ENABLED(USE_CONTROLLER_FAN)
 
   void controllerFan() {
     static millis_t lastMotorOn = 0, // Last time a motor was turned on
@@ -11933,7 +11986,7 @@ void manage_inactivity(bool ignore_stepper_queue/*=false*/) {
     }
   #endif
 
-  #if USE_CONTROLLER_FAN
+  #if ENABLED(USE_CONTROLLER_FAN)
     controllerFan(); // Check if fan should be turned on to cool stepper drivers down
   #endif
 
@@ -12203,7 +12256,7 @@ void setup() {
     endstops.enable_z_probe(false);
   #endif
 
-  #if USE_CONTROLLER_FAN
+  #if ENABLED(USE_CONTROLLER_FAN)
     SET_OUTPUT(CONTROLLER_FAN_PIN); //Set pin used for driver cooling fan
   #endif
 
@@ -12278,6 +12331,15 @@ void setup() {
   #if ENABLED(ENDSTOP_INTERRUPTS_FEATURE)
     setup_endstop_interrupts();
   #endif
+  
+  #ifdef LED 
+  pinMode(LED4_PIN,OUTPUT);
+  pinMode(LASER_PIN,OUTPUT);
+  digitalWrite(LED4_PIN,LOW);
+  digitalWrite(LASER_PIN,LOW);
+  //int led_flag=0;
+  #endif
+
 }
 
 /**
@@ -12330,7 +12392,7 @@ void loop() {
     // The queue may be reset by a command handler or by code invoked by idle() within a handler
     if (commands_in_queue) {
       --commands_in_queue;
-      cmd_queue_index_r = (cmd_queue_index_r + 1) % BUFSIZE;
+      if (++cmd_queue_index_r >= BUFSIZE) cmd_queue_index_r = 0;
     }
   }
   endstops.report_state();

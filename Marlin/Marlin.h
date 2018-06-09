@@ -196,6 +196,9 @@ bool enqueue_and_echo_command(const char* cmd, bool say_ok=false); // Add a sing
 void enqueue_and_echo_commands_P(const char * const cmd);          // Set one or more commands to be prioritized over the next Serial/SD command.
 void clear_command_queue();
 
+//MKS
+//extern int led_flag;
+
 extern millis_t previous_cmd_ms;
 inline void refresh_cmd_timeout() { previous_cmd_ms = millis(); }
 

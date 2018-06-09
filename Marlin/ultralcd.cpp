@@ -120,6 +120,7 @@ uint16_t max_display_update_time = 0;
   void lcd_control_motion_menu();
   void lcd_control_filament_menu();
 
+
   #if ENABLED(LCD_INFO_MENU)
     #if ENABLED(PRINTCOUNTER)
       void lcd_info_stats_menu();
@@ -1048,6 +1049,16 @@ void kill_screen(const char* lcd_msg) {
     // ^ Main
     //
     MENU_BACK(MSG_MAIN);
+	
+	#ifdef LED
+	MENU_ITEM(gcode, MSG_LED_ON, PSTR("M225"));	
+	MENU_ITEM(gcode, MSG_LED_OFF, PSTR("M224"));
+	#endif
+	#ifdef LASER
+	MENU_ITEM(gcode, MSG_LASER_ON, PSTR("M3"));	
+	MENU_ITEM(gcode, MSG_LASER_OFF, PSTR("M5"));
+	#endif
+	//MKS
 
     //
     // Speed:
@@ -1711,6 +1722,19 @@ void kill_screen(const char* lcd_msg) {
       MENU_ITEM(gcode, MSG_AUTO_HOME_Y, PSTR("G28 Y"));
       MENU_ITEM(gcode, MSG_AUTO_HOME_Z, PSTR("G28 Z"));
     #endif
+	
+	//
+	//led on and off
+	//
+	#ifdef LED
+	MENU_ITEM(gcode, MSG_LED_ON, PSTR("M225"));	
+	MENU_ITEM(gcode, MSG_LED_OFF, PSTR("M224"));
+	#endif
+	#ifdef LASER
+	MENU_ITEM(gcode, MSG_LASER_ON, PSTR("M3"));	
+	MENU_ITEM(gcode, MSG_LASER_OFF, PSTR("M5"));
+	#endif
+	//MKS
 
     //
     // Level Bed
