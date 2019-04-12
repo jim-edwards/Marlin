@@ -24,6 +24,9 @@
  // If you have a trex 3, stock is this option plus 2208 on all axis. None in spreadcycle.
 #define TREX3
 
+// If you have a trex 3 that was upgraded from a 2+ with the kit, modifies home position and offsets.
+#define TREX3_UPGRADED_FROM_2_PLUS
+
 //#define X_2208
 //#define X_Spreadcycle
 //#define X_S109
@@ -49,6 +52,11 @@
 
 
 //////////////////////////////////DO not edit below here unless you know what youre doing!  //////////////////////////////////
+
+// The TREX2+ upgraded to the 3 enables most of the same options, simplify here
+#if ENABLED(TREX3_UPGRADED_FROM_2_PLUS)
+  #define TREX3
+#endif
 
 #if ENABLED(TREX3)
   #if DISABLED(X_S109)
@@ -184,7 +192,9 @@
 
 // Optional custom name for your RepStrap or other custom machine
 // Displayed in the LCD "Ready" message
-#if ENABLED(TREX3)
+#if ENABLED(TREX3_UPGRADED_FROM_2_PLUS)
+#define CUSTOM_MACHINE_TIME "T-REX 3(u)"
+#elif ENABLED(TREX3)
   #define CUSTOM_MACHINE_NAME "T-REX 3"
 #else
   #define CUSTOM_MACHINE_NAME "T-REX 2+"
@@ -1133,11 +1143,25 @@
 #define Y_BED_SIZE 400
 
 // Travel limits (mm) after homing, corresponding to endstop positions.
-#define X_MIN_POS -47
-#define Y_MIN_POS 0
-#define Z_MIN_POS 0
-#define X_MAX_POS 460
-#define Y_MAX_POS Y_BED_SIZE
+#if ENABLED(TREX3_UPGRADED_FROM_2_PLUS)
+    #define X_MIN_POS -42
+    #define Y_MIN_POS 0
+    #define Z_MIN_POS 0
+    #define X_MAX_POS 450
+    #define Y_MAX_POS Y_BED_SIZE
+#elif ENABLED(TREX3)
+    #define X_MIN_POS -47
+    #define Y_MIN_POS 0
+    #define Z_MIN_POS 0
+    #define X_MAX_POS 460
+    #define Y_MAX_POS Y_BED_SIZE
+#else
+    #define X_MIN_POS -42
+    #define Y_MIN_POS 0
+    #define Z_MIN_POS 0
+    #define X_MAX_POS 450
+    #define Y_MAX_POS Y_BED_SIZE
+#endif
 #if(ENABLED(tallVersion))
   #define Z_MAX_POS 700
 #else
