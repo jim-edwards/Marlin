@@ -435,6 +435,10 @@
 #if ENABLED(DUAL_X_CARRIAGE)
   #define X1_MIN_POS X_MIN_POS   // Set to X_MIN_POS
   #define X1_MAX_POS X_BED_SIZE  // Set a maximum so the first X-carriage can't hit the parked second X-carriage
+  #if ENABLED(TREX3_UPGRADED_FROM_2_PLUS)
+  #else
+  #define X2_MIN_POS    0        // Set a minimum to ensure the  second X-carriage can't hit the parked first X-carriage
+  #endif
   #define X2_MIN_POS    80       // Set a minimum to ensure the  second X-carriage can't hit the parked first X-carriage
   #if ENABLED(TREX3)
     #define X2_MAX_POS 446       // Set this to the distance between toolheads when both heads are homed
